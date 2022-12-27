@@ -1,0 +1,58 @@
+---
+# tasks file for node-exporter
+
+# Check if systemd is used
+- name: FAIL; if not systemd
+  ansible.builtin.assert:
+    that: ansible_service_mgr == "systemd"
+    msg: "This role currently only support systemd"
+
+# tasks file for preflihgt
+- name: Preflight tasks
+  ansible.builtin.import_tasks: preflight.yml
+  when: node_exporter__install
+  tags:
+    - node_exporter_install
+    - node_exporter_configure
+    - node_exporter_run
+
+# Delete current version if needed
+- name: Delete existing node_exporter version if it's different.
+  ansible.builtin.file:
+    path: "{{ node_exporter__path }}"
+    state: absent
+  become: true
+  when: >
+    not node_exporter__install or
+    node_exporter_current_version.stdout is defined
+    and node_exporter_version not in node_exporter_current_version.stdout
+
+- name: Install tasks
+  ansible.builtin.import_tasks: install.yml
+  become: true
+  when: >
+    node_exporter__install and
+    node_exporter_current_version.stdout is not defined or
+    (node_exporter_current_version.stdout is defined and
+      node_exporter__version not in node_exporter_current_version.stdout)
+  tags:
+    - node_exporter_install
+
+- name: Configure tasks
+  ansible.builtin.import_tasks: configure.yml
+  become: true
+  when: node_exporter__install
+  tags:
+    - node_exporter_configure
+
+# Check if node_exporter is running
+- name: Ensure Node Exporter is enabled on boot
+  become: true
+  when: node_exporter__install
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: node_exporter
+    enabled: true
+    state: started
+  tags:
+    - node_exporter_run

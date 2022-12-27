@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: node_exporter
+  author: grokon
+  description: An Ansible Role that installs node_exporter on Debian
+  license: MIT
+  min_ansible_version: 5.0.0
+
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+
+  galaxy_tags:
+    - node_exporter
+    - prometheus
+    - metrics
+
+dependencies: []

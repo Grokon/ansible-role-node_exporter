@@ -1,0 +1,51 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description = Prometheus Node Exporter service
+Documentation = https://prometheus.io/docs/guides/node-exporter/
+After = network-online.target
+
+[Service]
+Type = simple
+User = {{ node_exporter__system_user }}
+Group = {{ node_exporter__system_group }}
+ExecStart = {{ node_exporter__path }} \
+{% for collector in node_exporter__enabled_collectors -%}
+{%   if not collector is mapping %}
+    --collector.{{ collector }} \
+{%   else -%}
+{%     set name, options = (collector.items()|list)[0] -%}
+{%     for k,v in options|dictsort %}
+    --collector.{{ name }}.{{ k }}={{ v | quote }} \
+{%     endfor -%}
+{%   endif -%}
+{% endfor -%}
+{% for collector in node_exporter__disabled_collectors %}
+    --no-collector.{{ collector }} \
+{% endfor %}
+{% if node_exporter__tls_server_config | length > 0 or node_exporter__http_server_config | length > 0 or node_exporter__basic_auth_users | length > 0 %}
+    --web.config={{ node_exporter__config_dir }}/config.yaml \
+{% endif %}
+    --web.listen-address={{ node_exporter__web_listen_address }} \
+    --log.level={{ node_exporter__log_level }}
+
+SyslogIdentifier = node_exporter
+Restart = always
+RestartSec = 1
+TimeoutSec = 15
+
+PrivateTmp=yes
+{% for m in ansible_mounts if m.mount == '/home' %}
+ProtectHome=read-only
+{% else %}
+ProtectHome=yes
+{% endfor %}
+NoNewPrivileges=yes
+
+ProtectSystem=strict
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=yes
+
+[Install]
+WantedBy=multi-user.target

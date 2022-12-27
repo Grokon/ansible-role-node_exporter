@@ -1,0 +1,58 @@
+---
+
+- name: Check server is not Droplet
+  ansible.builtin.command: mdadm --version
+  register: mdam_current_version
+  failed_when: false
+  changed_when: false
+  check_mode: false
+
+- name: Disable mdadm for Droplet
+  ansible.builtin.set_fact:
+    node_exporter_disabled_collectors:
+     - mdadm
+  when: mdam_current_version.stdout is not defined
+
+
+- name: Copy the node_exporter systemd service file
+  ansible.builtin.template:
+    src: etc/systemd/node_exporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart node_exporter
+
+- name: Create node_exporter config
+  when: >
+    ( node_exporter__tls_server_config | length > 0 ) or
+    ( node_exporter__http_server_config | length > 0 ) or
+    ( node_exporter__basic_auth_users | length > 0 )
+  block:
+    - name: Create node_exporter config directory
+      ansible.builtin.file:
+        path: "{{ node_exporter__config_dir }}"
+        state: directory
+        owner: "{{ node_exporter__system_user }}"
+        group: "{{ node_exporter__system_group }}"
+        mode: u+rwX,g+rwX,o=rX
+
+    - name: Copy the node_exporter config file
+      ansible.builtin.template:
+        src: etc/node_exporter/config.yaml.j2
+        dest: "{{ node_exporter__config_dir }}/config.yaml"
+        owner: "{{ node_exporter__system_user }}"
+        group: "{{ node_exporter__system_group }}"
+        mode: 0644
+      notify: restart node_exporter
+
+
+- name: Create textfile collector dir
+  ansible.builtin.file:
+    path: "{{ node_exporter__textfile_dir }}"
+    state: directory
+    owner: "{{ node_exporter__system_user }}"
+    group: "{{ node_exporter__system_group }}"
+    recurse: true
+    mode: u+rwX,g+rwX,o=rX
+  when: node_exporter__textfile_dir | length > 0

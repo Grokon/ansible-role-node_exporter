@@ -1,0 +1,26 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Example assertion
+      ansible.builtin.assert:
+        that: true
+
+    - name: Check node_exporter version
+      ansible.builtin.command:
+        cmd: node_exporter -version
+      register: node_exporter_test_one
+      changed_when: node_exporter_test_one.rc != 0
+      failed_when:
+        - '"node_exporter, version" not in node_exporter_test_one.stdout'
+
+    - name: Check node_exporter systemd service
+      ansible.builtin.command:
+        cmd: systemctl status node_exporter
+      register: node_exporter_test_two
+      changed_when: node_exporter_test_two.rc != 0
+      failed_when:
+        - '"Active: active (running)" not in node_exporter_test_two.stdout'

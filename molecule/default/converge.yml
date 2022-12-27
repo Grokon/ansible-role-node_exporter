@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+
+  tasks:
+    - name: "Include grokon.node_exporter"
+      ansible.builtin.include_role:
+        name: "grokon.node_exporter"
