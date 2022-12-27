@@ -13,7 +13,7 @@ galaxy_info:
         - bullseye
 
   galaxy_tags:
-    - node_exporter
+    - nodeexporter
     - prometheus
     - metrics
 

@@ -1,5 +1,4 @@
 ---
-
 - name: Check server is not Droplet
   ansible.builtin.command: mdadm --version
   register: mdam_current_version
@@ -10,9 +9,8 @@
 - name: Disable mdadm for Droplet
   ansible.builtin.set_fact:
     node_exporter_disabled_collectors:
-     - mdadm
+      - mdadm
   when: mdam_current_version.stdout is not defined
-
 
 - name: Copy the node_exporter systemd service file
   ansible.builtin.template:
@@ -45,7 +43,6 @@
         group: "{{ node_exporter__system_group }}"
         mode: 0644
       notify: restart node_exporter
-
 
 - name: Create textfile collector dir
   ansible.builtin.file:

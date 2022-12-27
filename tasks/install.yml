@@ -51,19 +51,20 @@
       when: not ansible_check_mode
 
 # Create group for node_exporter
-- name: Create the node_exporter group
-  ansible.builtin.group:
-    name: "{{ node_exporter__system_group }}"
-    state: present
-    system: true
+- name: Create Node Exporter user and group
   when: node_exporter__system_user != "root"
-# Create user for node_exporter
-- name: Create the node_exporter user
-  ansible.builtin.user:
-    name: "{{ node_exporter__system_user }}"
-    groups: "{{ node_exporter__system_group }}"
-    append: true
-    shell: /usr/sbin/nologin
-    system: true
-    create_home: false
-  when: node_exporter__system_user != "root"
+  block:
+    - name: Create the node_exporter group
+      ansible.builtin.group:
+        name: "{{ node_exporter__system_group }}"
+        state: present
+        system: true
+    # Create user for node_exporter
+    - name: Create the node_exporter user
+      ansible.builtin.user:
+        name: "{{ node_exporter__system_user }}"
+        groups: "{{ node_exporter__system_group }}"
+        append: true
+        shell: /usr/sbin/nologin
+        system: true
+        create_home: false

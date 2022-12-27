@@ -7,11 +7,10 @@
   changed_when: false
   check_mode: false
 
-
 # Get last version from github
 - name: Get latest Node Exporter version from github.
   when:
-    - node_exporter__version == "latest" 
+    - node_exporter__version == "latest"
   delegate_to: localhost
   run_once: true
   become: false
