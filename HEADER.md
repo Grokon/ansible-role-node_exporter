@@ -11,15 +11,4 @@
 - hosts: all
   roles:
     - grokon.node_exporter
-  vars:
-    node_exporter__loki_server_domain: my_loki_instance
-    node_exporter__scrape_configs:
-      - job_name: syslog
-        static_configs:
-          - targets:
-              - localhost
-            labels:
-              job: syslog
-              host: "{{ ansible_host }}"
-              __path__: /var/log/syslog
 ```

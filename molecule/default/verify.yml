@@ -11,7 +11,7 @@
 
     - name: Check node_exporter version
       ansible.builtin.command:
-        cmd: node_exporter -version
+        cmd: node_exporter --version
       register: node_exporter_test_one
       changed_when: node_exporter_test_one.rc != 0
       failed_when:

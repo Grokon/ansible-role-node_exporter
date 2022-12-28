@@ -35,13 +35,13 @@ node_exporter__textfile_dir: "/var/lib/node_exporter"
 node_exporter__system_user: node-exporter
 
 # @var node_exporter__system_group:description: Group for node_exporter
-node_exporter__system_group: "{{ node_exporter_system_user }}"
+node_exporter__system_group: "{{ node_exporter__system_user }}"
 
 # @var node_exporter__enabled_collectors:description: List of enabled collectors for node_exporter
 node_exporter__enabled_collectors:
   - systemd
   - textfile:
-      directory: "{{ node_exporter_textfile_dir }}"
+      directory: "{{ node_exporter__textfile_dir }}"
   - filesystem:
       ignored-mount-points: "^/(sys|proc|dev)($|/)"
       ignored-fs-types: "^(sys|proc|auto|tmp)fs$"

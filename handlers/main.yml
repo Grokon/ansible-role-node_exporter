@@ -6,3 +6,4 @@
     daemon_reload: true
     name: node_exporter
     state: restarted
+    enabled: true

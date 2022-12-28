@@ -7,6 +7,7 @@ After = network-online.target
 
 [Service]
 Type = simple
+Environment = "GOMAXPROCS={{ ansible_processor_vcpus | default(ansible_processor_count) }}"
 User = {{ node_exporter__system_user }}
 Group = {{ node_exporter__system_group }}
 ExecStart = {{ node_exporter__path }} \
@@ -24,14 +25,14 @@ ExecStart = {{ node_exporter__path }} \
     --no-collector.{{ collector }} \
 {% endfor %}
 {% if node_exporter__tls_server_config | length > 0 or node_exporter__http_server_config | length > 0 or node_exporter__basic_auth_users | length > 0 %}
-    --web.config={{ node_exporter__config_dir }}/config.yaml \
+    --web.config.file={{ node_exporter__config_dir }}/config.yaml \
 {% endif %}
     --web.listen-address={{ node_exporter__web_listen_address }} \
     --log.level={{ node_exporter__log_level }}
 
 SyslogIdentifier = node_exporter
 Restart = always
-RestartSec = 1
+RestartSec = 5
 TimeoutSec = 15
 
 PrivateTmp=yes

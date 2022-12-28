@@ -43,11 +43,11 @@
     - name: Propagate node_exporter binaries
       ansible.builtin.copy:
         src: "{{ node_exporter__tmp_dir }}/node_exporter-{{ node_exporter__version }}.linux-amd64/node_exporter"
-        dest: "{{ node_exporter_path }}"
+        dest: "{{ node_exporter__path }}"
         mode: 0755
         owner: root
         group: root
-      notify: restart node_exporter
+      notify: Restart node_exporter
       when: not ansible_check_mode
 
 # Create group for node_exporter

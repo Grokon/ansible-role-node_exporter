@@ -11,17 +11,6 @@
 - hosts: all
   roles:
     - grokon.node_exporter
-  vars:
-    node_exporter__loki_server_domain: my_loki_instance
-    node_exporter__scrape_configs:
-      - job_name: syslog
-        static_configs:
-          - targets:
-              - localhost
-            labels:
-              job: syslog
-              host: "{{ ansible_host }}"
-              __path__: /var/log/syslog
 ```
 
 An Ansible Role that installs node_exporter on Debian
@@ -94,7 +83,7 @@ List of enabled collectors for node_exporter
 node_exporter__enabled_collectors:
   - systemd
   - textfile:
-      directory: '{{ node_exporter_textfile_dir }}'
+      directory: '{{ node_exporter__textfile_dir }}'
   - filesystem:
       ignored-mount-points: ^/(sys|proc|dev)($|/)
       ignored-fs-types: ^(sys|proc|auto|tmp)fs$
@@ -147,7 +136,7 @@ Group for node_exporter
 #### Default value
 
 ```YAML
-node_exporter__system_group: '{{ node_exporter_system_user }}'
+node_exporter__system_group: '{{ node_exporter__system_user }}'
 ```
 
 ### node_exporter__system_user

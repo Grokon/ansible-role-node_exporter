@@ -6,3 +6,6 @@
     - name: "Include grokon.node_exporter"
       ansible.builtin.include_role:
         name: "grokon.node_exporter"
+      vars:
+        node_exporter__basic_auth_users:
+          test: test
