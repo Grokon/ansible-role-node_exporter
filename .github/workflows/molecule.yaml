@@ -39,7 +39,7 @@ jobs:
         with:
           python-version: "3.x"
       - name: Install dependencies
-        run: python3 -m pip install ansible molecule[docker] docker
+        run: python3 -m pip install ansible molecule[docker] docker passlib
       - name: Test with molecule
         run: |
           molecule test

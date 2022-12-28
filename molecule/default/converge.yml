@@ -8,4 +8,4 @@
         name: "grokon.node_exporter"
       vars:
         node_exporter__basic_auth_users:
-          test: test
+          test1: test1
