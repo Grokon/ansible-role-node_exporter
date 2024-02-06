@@ -85,8 +85,8 @@ node_exporter__enabled_collectors:
   - textfile:
       directory: '{{ node_exporter__textfile_dir }}'
   - filesystem:
-      ignored-mount-points: ^/(sys|proc|dev)($|/)
-      ignored-fs-types: ^(sys|proc|auto|tmp)fs$
+      mount-points-exclude: ^/(sys|proc|dev)($|/)
+      fs-types-exclude: ^(sys|proc|auto|tmp)fs$
 ```
 
 ### node_exporter__http_server_config

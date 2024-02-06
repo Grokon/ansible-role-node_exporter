@@ -10,7 +10,7 @@
   ansible.builtin.set_fact:
     node_exporter_disabled_collectors:
       - mdadm
-  when: mdam_current_version.stdout is not defined
+  when: mdam_current_version.stdout is not defined or mdam_current_version.stdout == ""
 
 - name: Copy the node_exporter systemd service file
   ansible.builtin.template:
