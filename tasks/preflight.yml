@@ -22,7 +22,7 @@
         return_content: true
         status_code: 200
         body_format: json
-        validate_certs: False
+        validate_certs: false
         user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
         password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
       no_log: "{{ not lookup('env', 'ANSIBLE_DEBUG') | bool }}"
@@ -45,6 +45,6 @@
     - name: "Get checksum for amd64 architecture"
       ansible.builtin.set_fact:
         node_exporter_checksum: "{{ item.split(' ')[0] }}"
-      with_items: "{{ __node_exporter_checksums }}"
+      loop: "{{ __node_exporter_checksums }}"
       when:
         - "('linux-' + 'amd64' + '.tar.gz') in item"

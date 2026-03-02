@@ -3,12 +3,12 @@
 
 {% if node_exporter__tls_server_config | length > 0 %}
 tls_server_config:
-  {{ node_exporter_tls__server_config | to_nice_yaml | indent(2, true) }}
+  {{ node_exporter__tls_server_config | to_nice_yaml | indent(2, true) }}
 {% endif %}
 
 {% if node_exporter__http_server_config | length > 0 %}
 http_server_config:
-  {{ node_exporter_http__server_config | to_nice_yaml | indent(2, true) }}
+  {{ node_exporter__http_server_config | to_nice_yaml | indent(2, true) }}
 {% endif %}
 
 {% if node_exporter__basic_auth_users | length > 0 %}

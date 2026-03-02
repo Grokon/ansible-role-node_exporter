@@ -7,7 +7,7 @@ After = network-online.target
 
 [Service]
 Type = simple
-Environment = "GOMAXPROCS={{ ansible_processor_vcpus | default(ansible_processor_count) }}"
+Environment = "GOMAXPROCS={{ ansible_facts['processor_vcpus'] | default(ansible_facts['processor_count']) }}"
 User = {{ node_exporter__system_user }}
 Group = {{ node_exporter__system_group }}
 ExecStart = {{ node_exporter__path }} \
@@ -36,7 +36,7 @@ RestartSec = 5
 TimeoutSec = 15
 
 PrivateTmp=yes
-{% for m in ansible_mounts if m.mount == '/home' %}
+{% for m in ansible_facts['mounts'] if m.mount == '/home' %}
 ProtectHome=read-only
 {% else %}
 ProtectHome=yes

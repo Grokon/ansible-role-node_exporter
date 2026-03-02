@@ -1,6 +1,6 @@
 # ansible-role-node_exporter
 
-[![Mocelule Test Status](https://github.com/Grokon/ansible-role-node_exporter/actions/workflows/molecule.yaml/badge.svg?branch=master)](https://github.com/Grokon/ansible-role-node_exporter/actions/workflows/molecule.yaml)
+[![Mocecule Test Status](https://github.com/Grokon/ansible-role-node_exporter/actions/workflows/molecule.yaml/badge.svg?branch=master)](https://github.com/Grokon/ansible-role-node_exporter/actions/workflows/molecule.yaml)
 [![GitHub release](https://img.shields.io/github/release/Grokon/ansible-role-node_exporter.svg)](https://github.com/Grokon/ansible-role-node_exporter/release)
 [![GitHub license](https://img.shields.io/github/license/Grokon/ansible-role-node_exporter.svg)](https://github.com/Grokon/ansible-role-node_exporter/blob/master/LICENSE)
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-grokon.node_exporter-blue.svg)](https://galaxy.ansible.com/grokon/node_exporter/)
@@ -15,8 +15,9 @@
 
 An Ansible Role that installs node_exporter on Debian
 
-## Table of content
+## Table of contents
 
+- [Requirements](#requirements)
 - [Default Variables](#default-variables)
   - [node_exporter__basic_auth_users](#node_exporter__basic_auth_users)
   - [node_exporter__config_dir](#node_exporter__config_dir)
@@ -40,6 +41,10 @@ An Ansible Role that installs node_exporter on Debian
 - [Author](#author)
 
 ---
+
+## Requirements
+
+- Minimum Ansible version: `2.20`
 
 ## Default Variables
 
@@ -101,7 +106,8 @@ node_exporter__http_server_config: {}
 
 ### node_exporter__install
 
-Weather of not to install node_exporter Set to false if it's already installed and wanted to remove it
+Weather of not to install node_exporter
+Set to false if it's already installed and wanted to remove it
 
 #### Default value
 

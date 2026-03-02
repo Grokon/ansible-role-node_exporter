@@ -8,7 +8,7 @@
         url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter__version }}/node_exporter-{{ node_exporter__version }}.linux-amd64.tar.gz"
         dest: "{{ node_exporter__tmp_dir }}/node_exporter-{{ node_exporter__version }}.linux-amd64.tar.gz"
         checksum: "sha256:{{ node_exporter_checksum }}"
-        mode: 0644
+        mode: "0644"
       register: _download_binary
       until: _download_binary is succeeded
       retries: 5
@@ -29,7 +29,7 @@
       ansible.builtin.copy:
         src: "{{ node_exporter__tmp_dir }}/node_exporter-{{ node_exporter__version }}.linux-amd64/node_exporter"
         dest: "{{ node_exporter__path }}"
-        mode: 0755
+        mode: "0755"
         owner: root
         group: root
       notify: Restart node_exporter

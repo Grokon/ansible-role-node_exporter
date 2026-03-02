@@ -4,13 +4,12 @@ galaxy_info:
   author: grokon
   description: An Ansible Role that installs node_exporter on Debian
   license: MIT
-  min_ansible_version: 5.0.0
+  min_ansible_version: "2.20"
 
   platforms:
     - name: Debian
       versions:
-        - buster
-        - bullseye
+        - trixie
 
   galaxy_tags:
     - nodeexporter

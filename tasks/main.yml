@@ -4,7 +4,7 @@
 # Check if systemd is used
 - name: FAIL; if not systemd
   ansible.builtin.assert:
-    that: ansible_service_mgr == "systemd"
+    that: ansible_facts['service_mgr'] == "systemd"
     msg: "This role currently only support systemd"
 
 # tasks file for preflihgt
