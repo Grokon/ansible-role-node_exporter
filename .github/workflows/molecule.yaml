@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         distro:
-          - debian-bullseye
+          - trixie
 
     steps:
       - name: checkout
