@@ -39,7 +39,7 @@ jobs:
         with:
           python-version: "3.x"
       - name: Install dependencies
-        run: python3 -m pip install ansible molecule molecule-plugins[docker] docker passlib
+        run: python3 -m pip install ansible molecule molecule-plugins[docker] docker bcrypt
       - name: Test with molecule
         run: |
           molecule test
